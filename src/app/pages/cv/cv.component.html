@@ -1,0 +1,56 @@
+<img [src]="data.imgUrl">
+<h1>{{data.nombre}}</h1>
+{{data.subtitulo}}
+<!-- data -->
+<div>
+    {{data.descripcion}}
+    <ul>
+        <li *ngFor="let item of links">
+            <!-- FA icons!!! -->
+            <i [ngClass]="item.icon"></i>
+            <a [href]="item.link">{{item.nombre}}</a>
+        </li>
+    </ul>
+    <a [href]="data.pdfCV" target="_blank" download> descargar CV</a>
+</div>
+<!-- tray prof -->
+<div>
+<h2>Trayectoria profesional</h2>
+<div *ngFor="let item of trayprof">
+    {{item.titulo}}
+    {{item.subtitulo}}
+    Empresa: {{item.centro}}
+    fecha:{{item.fechaEntrada}} - {{item.fechaSalida}}
+    {{item.descripcion}}
+    
+    <ul>
+        <li *ngFor="let it of item.tecnologias">{{it}}</li>
+    </ul>
+</div>
+</div>
+<!-- tray escolar -->
+<div>
+    <h2>Trayectoria educativa</h2>
+    <div *ngFor="let item of trayesc">
+        {{item.titulo}}
+        {{item.subtitulo}}
+        Empresa: {{item.centro}}
+        fecha:{{item.fechaEntrada}} - {{item.fechaSalida}}
+        {{item.descripcion}}
+        
+        <ul>
+            <li *ngFor="let it of item.tecnologias">{{it}}</li>
+        </ul>
+    </div>
+</div>
+<!-- conocimientos -->
+<div *ngFor="let item of listGraphs">
+    <div *ngIf="item.tipo_grafico_id == 3">
+    {{item.title}}
+    <app-pie-chart [graph_id]="item.id"></app-pie-chart>
+    </div>
+    <div *ngIf="item.tipo_grafico_id == 2">
+    {{item.title}}
+    <app-bar-chart [graph_id]="item.id"></app-bar-chart>
+    </div>
+</div>

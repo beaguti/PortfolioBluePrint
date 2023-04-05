@@ -1,0 +1,24 @@
+<h1>EDICION DE DATOS</h1>
+<button (click)="logout()">cerrar</button>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a [ngClass]="cvClass" id="esquemas-tab" (click)="changeTo('cv')" cursor="pointer">CV</a>
+  </li>
+  <li class="nav-item">
+    <a [ngClass]="projClass" id="esquemas-tab" (click)="changeTo('proj')" cursor="pointer">Proyectos</a>
+  </li>
+  <li class="nav-item">
+    <a [ngClass]="artClass" id="esquemas-tab" (click)="changeTo('art')" cursor="pointer">Arte</a>
+  </li>
+</ul>
+
+<div *ngIf="showCV">
+<app-edit-cv></app-edit-cv>
+</div>
+<div *ngIf="showProject">
+<app-edit-projects></app-edit-projects>
+</div>
+<div *ngIf="showArt">
+<app-edit-art></app-edit-art>
+</div>

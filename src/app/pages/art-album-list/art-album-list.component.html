@@ -1,0 +1,7 @@
+<h2>Arte</h2>
+<h3>Una serie de albunes de arte</h3>
+<div class="grid">
+    <div class="item" *ngFor="let it of albumList">
+        <a [routerLink]="['/art-album/',it.id]">{{it.nombre}}</a>
+    </div>
+</div>

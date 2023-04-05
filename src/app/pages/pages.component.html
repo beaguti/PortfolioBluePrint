@@ -1,0 +1,25 @@
+<header> <button (click)="expanded = !expanded">
+    <span class="material-icons" *ngIf="!expanded">
+    menu
+    </span>
+    <span class="material-icons" *ngIf="expanded">
+        close
+    </span>
+</button> Header</header>
+
+<div class="main-layout">
+  <aside class="sidebar" *ngIf="expanded" @slidein>
+    <ul>
+      <li><a [routerLink]="['/home']">Home</a></li>
+      <li><a [routerLink]="['/cv']">CV</a></li>
+      <li><a [routerLink]="['/project-list']">Proyectos programación</a></li>
+      <li><a [routerLink]="['/art-album-list']">Arte</a></li>
+    </ul>
+  </aside>
+  <section>
+    <router-outlet></router-outlet>
+  </section>
+</div>
+
+
+

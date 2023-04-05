@@ -1,0 +1,379 @@
+<div id="cv">
+    <h2>CV</h2>
+    <div id="infoPersonal">
+      <h3>Informacion personal</h3>
+      <button *ngIf="infoShow" (click)="editarinfo()">editar</button>
+      <div *ngIf="infoShow">
+        <img [src]="info.imgUrl" />
+        <p>Nombre: {{ info.nombre }}</p>
+        <p>Subtitulo: {{ info.subtitulo }}</p>
+        <p>Descripcion: {{ info.descripcion }}</p>
+        <p>Archivo cv:</p>
+        <i *ngIf="info.pdfCV != ''" class="fa-solid fa-file-circle-check fa-lg"></i>
+        <i *ngIf="info.pdfCV == ''" class="fa-solid fa-file-circle-xmark fa-lg"></i>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">icono</th>
+              <th scope="col">icon-name</th>
+              <th scope="col">nombre</th>
+              <th scope="col">link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listLinks">
+              <th scope="row"> <i [ngClass]="item.icon"></i></th>
+              <td>{{ item.icon }}</td>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.link }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- edit -->
+      <div *ngIf="infoEdit">
+        <button (click)="saveInfo()">guardar</button>
+        <input type="text" placeholder="Nombre" [(ngModel)]="info.nombre" />
+        <input type="text" placeholder="subtitulo" [(ngModel)]="info.subtitulo" />
+        <textarea
+          placeholder="descripcion"
+          [(ngModel)]="info.descripcion"
+        ></textarea>
+        <!-- imagen -->
+        <input type="file" class="file-upload" (change)="upload($event.target)">
+        <img [src]="imgFile" />
+        <input type="file" class="file-upload" (change)="uploadPDF($event.target)">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          AñadirLink
+        </button>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">icono</th>
+              <th scope="col">nombre</th>
+              <th scope="col">link</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let item of listLinks">
+                <th scope="row"><div *ngIf="linkShow">{{item.icon}} <i [ngClass]="item.icon"></i></div><div *ngIf="linkEdit"><input type="text" [(ngModel)]="item.icon" /></div></th>
+                <td><div *ngIf="linkShow">{{item.nombre}}</div><div *ngIf="linkEdit"><input type="text" [(ngModel)]="item.nombre" /></div></td>
+                <td><div *ngIf="linkShow">{{item.link}}</div><div *ngIf="linkEdit"><input type="text" [(ngModel)]="item.link" /></div></td>
+                <td>
+                  <div *ngIf="linkShow"><button (click)="editLink()">editar</button> <button (click)="deleteLink(item.id)">borrar</button></div>
+                  <div *ngIf="linkEdit"><button (click)="saveLink(item)">guardar</button></div>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="conocimientos">
+      <h3>Conocimientos</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#conModal">
+          Añadir Conocimiento
+        </button>
+        <button *ngIf="conShow" (click)="editcon()">editar</button>
+        <button *ngIf="conEdit" (click)="guardarcon()">cancelar</button>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">label</th>
+            <th scope="col">data</th>
+            <th scope="col">color</th>
+            <th scope="col">grafico</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listConocimientos">
+            <th scope="row"><div *ngIf="conShow">{{ item['label'] }}</div><div *ngIf="conEdit"><input type="text" [(ngModel)]="item['label']" /></div></th>
+            <td><div *ngIf="conShow">{{ item['data'] }}</div><div *ngIf="conEdit"><input type="text" [(ngModel)]="item['data']" /></div></td>
+            <td><input class="form-control"[disabled]="conShow" [cpDisabled]="conShow"  [(colorPicker)]="item['color']" [style.background]="item['color']" [value]="item['color']" (colorPickerChange)="changecolor(item['color'], $event)"></td>
+            <td><div *ngIf="conShow">
+              {{item['nameGraph']}}
+            </div>
+              <div *ngIf="conEdit">
+                <mat-form-field appearance="fill">
+                  <mat-label>{{item['nameGraph']}}</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let food of listGraph" [value]="food.id">
+                      {{food.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </td>
+            <td> <div *ngIf="conEdit"><button (click)="deleteConoc(item.id)">borrar</button> <button (click)="saveConoc(item)">guardar</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+  
+    </div>
+    <div id="gaphs">
+      <h3>Graficos</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#graphModal">
+          Añadir Grafico
+        </button>
+        <button *ngIf="graphShow" (click)="editgraph()">editar</button>
+        <button *ngIf="graphEdit" (click)="guardargraph()">cancelar</button>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">titulo</th>
+            <th scope="col">tipo grafico</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listGraph">
+            <th scope="row"><div *ngIf="graphShow">{{ item['title'] }}</div><div *ngIf="graphEdit"><input type="text" [(ngModel)]="item['title']" /></div></th>
+            <td><div *ngIf="graphShow">
+              {{item['nameGraph']}}
+            </div>
+              <div *ngIf="graphEdit">
+                {{listGraph[item.tipo_grafico_id]}}
+                <mat-form-field appearance="fill">
+                  <mat-label>{{item['nameGraph']}}</mat-label>
+                  <mat-select [(ngModel)]="item.tipo_grafico_id">
+                    <mat-option *ngFor="let food of listTipoGraph" [value]="food.id">
+                      {{food.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </td>
+            <td> <div *ngIf="graphEdit"><button (click)="deleteGraph(item.id)">borrar</button> <button (click)="saveGraph(item)">guardar</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+  
+    </div>
+    <div id="trayec">
+      <div id="trayecProf">
+      <h3>Trayectoria Profesional</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profModal">
+          Añadir Trayectoria Profesional
+        </button>
+        <button *ngIf="profShow" (click)="editprof()">editar</button>
+        <button *ngIf="profEdit" (click)="guardarprof()">Guardar</button>
+        <button *ngIf="profEdit" (click)="guardarprof()">cancelar</button>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">titulo</th>
+            <th scope="col">subtitulo</th>
+            <th scope="col">Empresa</th>
+            <th scope="col">fecha</th>
+            <th scope="col">descripcion</th>
+            <th scope="col">tecnologias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listProf">
+            <th scope="row"><div *ngIf="profShow">{{ item.titulo }}</div><div *ngIf="profEdit"><input type="text" [(ngModel)]="item.titulo" /></div></th>
+            <td><div *ngIf="profShow">{{ item.subtitulo }}</div><div *ngIf="profEdit"><input type="text" [(ngModel)]="item.subtitulo" /></div></td>
+            <td><div *ngIf="profShow">{{ item.centro }}</div><div *ngIf="profEdit"><input type="text" [(ngModel)]="item.centro" /></div></td>
+            <td><div *ngIf="profShow">{{ item.fechaEntrada }}-{{ item.fechaSalida }}</div>
+              <div *ngIf="profEdit">
+                <input type="text" [(ngModel)]="item.fechaEntrada" /> - <input type="text" [(ngModel)]="item.fechaSalida" />
+              </div>
+            </td>
+            <td><div *ngIf="profShow">{{ item.descripcion }}</div><div *ngIf="profEdit"><input type="text" [(ngModel)]="item.descripcion" /></div></td>
+            <td>
+              <button (click)="addShowproftec()" *ngIf="showProfTec">Añadir tecnologia</button>
+              <input type="text" [(ngModel)]="profNewTecnologia" *ngIf="editProfTec"/>
+              <button (click)="guardarnewproftec(item)" *ngIf="editProfTec">Guardar</button>
+              <ul *ngFor="let it of item.tecnologias">
+              <li>{{ it }} <button *ngIf="profEdit" (click)="borrarTecProf(item,it)">Borrar</button></li>
+            </ul>
+            </td>
+            <td> <div *ngIf="profEdit"><button (click)="deleteProf(item.id)">borrar</button> <button (click)="saveProf(item)">guardar</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+  
+    </div>
+      <div id="trayecEsc">
+        <h3>Historial Academico</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escModal">
+          Añadir Historial Academico
+        </button>
+        <button *ngIf="escShow" (click)="editesc()">editar</button>
+        <button *ngIf="escEdit" (click)="guardaresc()">Guardar</button>
+        <button *ngIf="escEdit" (click)="guardaresc()">cancelar</button>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">titulo</th>
+              <th scope="col">subtitulo</th>
+              <th scope="col">centro</th>
+              <th scope="col">fecha</th>
+              <th scope="col">descripcion</th>
+              <th scope="col">tecnologias</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listEsc">
+              <th scope="row"><div *ngIf="escShow">{{ item.titulo }}</div><div *ngIf="escEdit"><input type="text" [(ngModel)]="item.titulo" /></div></th>
+              <td><div *ngIf="escShow">{{ item.subtitulo }}</div><div *ngIf="escEdit"><input type="text" [(ngModel)]="item.subtitulo" /></div></td>
+              <td><div *ngIf="escShow">{{ item.centro }}</div><div *ngIf="escEdit"><input type="text" [(ngModel)]="item.centro" /></div></td>
+              <td><div *ngIf="escShow">{{ item.fechaEntrada }}-{{ item.fechaSalida }}</div>
+                <div *ngIf="escEdit">
+                  <input type="text" [(ngModel)]="item.fechaEntrada" /> - <input type="text" [(ngModel)]="item.fechaSalida" />
+                </div>
+              </td>
+              <td><div *ngIf="escShow">{{ item.descripcion }}</div><div *ngIf="escEdit"><input type="text" [(ngModel)]="item.descripcion" /></div></td>
+              <td>
+                <button (click)="addShowesctec()" *ngIf="showEscTec">Añadir tecnologia</button>
+                <input type="text" [(ngModel)]="escNewTecnologia" *ngIf="editEscTec"/>
+                <button (click)="guardarnewesctec(item)" *ngIf="editEscTec">Guardar</button>
+                <ul *ngFor="let it of item.tecnologias">
+                <li>{{ it }} <button *ngIf="escEdit" (click)="borrarTecEsc(item,it)">Borrar</button></li>
+              </ul>
+              </td>
+              <td> <div *ngIf="escEdit"><button (click)="deleteEsc(item.id)">borrar</button> <button (click)="saveEsc(item)">guardar</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+  
+  
+
+  <div id="modalesCV">
+    <!-- Modal link -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear link</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Icono <input type="text" [(ngModel)]="linkIcon" />
+            Nombre  <input type="text" [(ngModel)]="linkName" />
+            Link  <input type="text" [(ngModel)]="linkLink" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="newLink()" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal prof -->
+    <div class="modal fade" id="profModal" tabindex="-1" aria-labelledby="profModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear Trayectoria Profesional</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            titulo <input type="text" [(ngModel)]="ProfTitulo" />
+            Subtitulo <input type="text" [(ngModel)]="ProfSubtitutlo" />
+            Centro <input type="text" [(ngModel)]="ProfCentro" />
+            Fechas<input type="text" [(ngModel)]="ProfFechaEntrada" /> - <input type="text" [(ngModel)]="ProfFechaSalida" />
+            Descripcion <input type="text" [(ngModel)]="ProfDescripcion" />
+            tecnologias
+                    <input type="text" [(ngModel)]="profNewTecnologia" />
+                    <button (click)="addproftec()">Añadir tecnologia</button>
+                    
+                    <ul *ngFor="let it of ProfTecnologias">
+                    <li>{{ it }} <button (click)="deletefromProfTecnologias(it)">Borrar</button></li>
+                  </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="newProf()" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal esc -->
+    <div class="modal fade" id="escModal" tabindex="-1" aria-labelledby="escModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear Historial Academico</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            titulo <input type="text" [(ngModel)]="EscTitulo" />
+            Subtitulo <input type="text" [(ngModel)]="EscSubtitutlo" />
+            Centro <input type="text" [(ngModel)]="EscCentro" />
+            Fechas<input type="text" [(ngModel)]="EscFechaEntrada" /> - <input type="text" [(ngModel)]="EscFechaSalida" />
+            Descripcion <input type="text" [(ngModel)]="EscDescripcion" />
+            tecnologias
+                    <input type="text" [(ngModel)]="escNewTecnologia" />
+                    <button (click)="addesctec()">Añadir tecnologia</button>
+                    
+                    <ul *ngFor="let it of EscTecnologias">
+                    <li>{{ it }} <button (click)="deletefromEscTecnologias(it)">Borrar</button></li>
+                  </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="newEsc()" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal con -->
+    <div class="modal fade" id="conModal" tabindex="-1" aria-labelledby="conModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear Historial Academico</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Label <input type="text" [(ngModel)]="ConocLabel" />
+            Data <input type="number" [(ngModel)]="ConocData" />
+            Color <input class="form-control" [(colorPicker)]="ConocColor" [style.background]="ConocColor" [value]="ConocColor" (colorPickerChange)="changecolor(ConocColor, $event)">
+              <mat-form-field appearance="fill">
+                <mat-label>Grafico</mat-label>
+                <mat-select [(ngModel)]="ConocGraphId">
+                  <mat-option *ngFor="let food of listGraph" [value]="food.id">
+                    {{food.title}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="newConoc()" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal graph -->
+    <div class="modal fade" id="graphModal" tabindex="-1" aria-labelledby="conModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Crear Historial Academico</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Titulo <input type="text" [(ngModel)]="GraphTitle" />
+              <mat-form-field appearance="fill">
+                <mat-label>Grafico</mat-label>
+                <mat-select [(ngModel)]="selectedGraphType">
+                  <mat-option *ngFor="let food of listTipoGraph" [value]="food.id" >
+                    {{food.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" (click)="newGraph()" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>

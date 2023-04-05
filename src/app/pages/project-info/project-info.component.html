@@ -1,0 +1,14 @@
+<h1>{{project.nombre}}</h1>
+<p>{{project.descripcion}}</p>
+<p>{{project.fecha}}</p>
+<img [src]="project.imgUrl">
+<a [href]="project.link" *ngIf="project.link!=undefined"> Ver la web</a>
+<a [href]="project.code" *ngIf="project.code!=undefined"> Ver el codigo</a>
+Lista Colaboradores
+<ul>
+    <li *ngFor="let item of colabList">
+        {{item.nombre}}
+        <img [src]="item.imgUrl">
+        <a [href]="item.url" *ngIf="item.url!=undefined"> Accede a mas datos</a>
+    </li>
+</ul>

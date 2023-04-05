@@ -1,0 +1,7 @@
+<h2>Proyectos</h2>
+<h3>Una serie de proyectos personales en los cuales he trabajado o sigo trabajando</h3>
+<div class="grid">
+    <div class="item" *ngFor="let it of listProj">
+        <a [routerLink]="['/project/',it.id]">{{it.nombre}}</a>
+    </div>
+</div>

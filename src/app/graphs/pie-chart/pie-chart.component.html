@@ -1,0 +1,10 @@
+<plotly-plot [data]="data" [layout]="layout" [config]="config" >
+</plotly-plot>
+
+
+<ul>
+    <li *ngFor="let it of leyenda">
+        <div [style.background-color]="it['color']" id="spacing"></div>
+        {{it['text']}}
+    </li>
+</ul>

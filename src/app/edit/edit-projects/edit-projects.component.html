@@ -1,0 +1,141 @@
+<div id="projects">
+    <h2>Projectos</h2>
+    <div id="colabs">
+      <h3>Colaboradores</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#colabModal">
+          Añadir Colaborador
+        </button>
+        <button *ngIf="colabShow" (click)="editcolab()">editar</button>
+        <button *ngIf="colabEdit" (click)="guardarcolab()">Guardar</button>
+        <button *ngIf="colabEdit" (click)="guardarcolab()">cancelar</button>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">url</th>
+            <th scope="col">imagen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listColabs">
+            <th scope="row"><div *ngIf="colabShow">{{ item.nombre }}</div><div *ngIf="colabEdit"><input type="text" [(ngModel)]="item.nombre" /></div></th>
+            <td><div *ngIf="colabShow">{{ item.url }}</div><div *ngIf="colabEdit"><input type="text" [(ngModel)]="item.url" /></div></td>
+            <td><div *ngIf="colabShow"><img [src]="item.imgUrl" /></div><div *ngIf="colabEdit"><input type="file" class="file-upload" (change)="uploadColabItem($event.target,item)">
+              <img [src]="item.imgUrl" /></div></td>
+            <td> <div *ngIf="colabEdit"><button (click)="deleteColab(item.id)">borrar</button> <button (click)="saveColab(item)">guardar</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="proj">
+      <h3>Proyectos</h3>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#projModal">
+          Añadir Proyecto
+        </button>
+        <button *ngIf="projShow" (click)="editproj()">editar</button>
+        <button *ngIf="projEdit" (click)="guardarproj()">Guardar</button>
+        <button *ngIf="projEdit" (click)="guardarproj()">cancelar</button>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">descripcion</th>
+            <th scope="col">fecha</th>
+            <th scope="col">link</th>
+            <th scope="col">codigo</th>
+            <th scope="col">imagen</th>
+            <th scope="col">Colaboradores</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listProjects">
+            <td><div *ngIf="projShow">{{ item['nombre'] }}</div><div *ngIf="projEdit"><input type="text" [(ngModel)]="item['nombre']" /></div></td>
+            <td><div *ngIf="projShow">{{ item['descripcion'] }}</div><div *ngIf="projEdit"><input type="text" [(ngModel)]="item['descripcion']" /></div></td>
+            <td><div *ngIf="projShow">{{ item['fecha'] }}</div><div *ngIf="projEdit"><input type="text" [(ngModel)]="item['fecha']" /></div></td>
+            <td><div *ngIf="projShow">{{ item['link'] }}</div><div *ngIf="projEdit"><input type="text" [(ngModel)]="item['link']" /></div></td>
+            <td><div *ngIf="projShow">{{ item['code'] }}</div><div *ngIf="projEdit"><input type="text" [(ngModel)]="item['code']" /></div></td>
+            <td><div *ngIf="projShow"><img [src]="item['imgUrl']" /></div><div *ngIf="projEdit"><input type="file" class="file-upload" (change)="uploadProjItem($event.target,item)">
+        <img [src]="item['imgUrl']" /></div></td>
+            <td>
+              <mat-form-field appearance="fill" *ngIf="projEdit">
+                <mat-select (selectionChange)="addColabtoProjBd($event,item['listColab'],item['id'])">
+                  <mat-option *ngFor="let food of listColabs" [value]="food">
+                    {{food.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> 
+              <div *ngFor="let it of item['listColab']">
+                {{ it['colab'].nombre }}
+              <div *ngIf="projEdit">
+                <button (click)="deleteColabtoProjBd(it['proj_colab_id'])">borrar colab</button>
+              </div>
+            </div>
+            </td>
+            <td> <div *ngIf="projEdit"><button (click)="deleteProj(item.id)">borrar</button> <button (click)="saveProj(item)">guardar</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="modalesProj">
+    <div id="modalColab">
+      <div class="modal fade" id="colabModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Crear Colaborador</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Nombre  <input type="text" [(ngModel)]="colabName" />
+              Url  <input type="text" [(ngModel)]="colabUrl" />
+              Imagen <input type="file" class="file-upload" (change)="uploadColab($event.target)">
+                    <img [src]="colabImg" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" (click)="newColab()" data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div id="projecModal">
+      <div class="modal fade" id="projModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Crear Projecto</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Nombre  <input type="text" [(ngModel)]="projName" />
+              Descripcion  <input type="text" [(ngModel)]="projDesc" />
+              Fecha  <input type="text" [(ngModel)]="projFecha" />
+              Link  <input type="text" [(ngModel)]="projLink" />
+              Codigo  <input type="text" [(ngModel)]="projCode" />
+              Imagen <input type="file" class="file-upload" (change)="uploadProj($event.target)">
+              <img [src]="projImgUrl" />
+              Colaboradores 
+              <ul *ngFor="let it of projColab">
+                <li>{{ it.value.nombre }}</li>
+              </ul>
+              <mat-form-field appearance="fill">
+                <mat-select (selectionChange)="addColabtoProj($event)">
+                  <mat-option *ngFor="let food of listColabs" [value]="food">
+                    {{food.nombre}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" (click)="newProj()" data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
