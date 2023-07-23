@@ -29,6 +29,7 @@ export class CvService {
     });
   }
   public getListInfos(){
+    debugger;
     let b = this.dbf.collection<Info>('/Infos',ref=>ref.limit(1));
     return b.valueChanges();
   }

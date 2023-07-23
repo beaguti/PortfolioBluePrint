@@ -8,9 +8,6 @@
   <li class="nav-item">
     <a [ngClass]="projClass" id="esquemas-tab" (click)="changeTo('proj')" cursor="pointer">Proyectos</a>
   </li>
-  <li class="nav-item">
-    <a [ngClass]="artClass" id="esquemas-tab" (click)="changeTo('art')" cursor="pointer">Arte</a>
-  </li>
 </ul>
 
 <div *ngIf="showCV">
@@ -18,7 +15,4 @@
 </div>
 <div *ngIf="showProject">
 <app-edit-projects></app-edit-projects>
-</div>
-<div *ngIf="showArt">
-<app-edit-art></app-edit-art>
 </div>

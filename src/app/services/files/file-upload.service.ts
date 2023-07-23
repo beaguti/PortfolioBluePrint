@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize, Observable } from 'rxjs';
-import { ArtService } from '../art/art.service';
 import { CvService } from '../CV/cv.service';
 import { ProjectService } from '../project/project.service';
 
@@ -16,7 +15,6 @@ export class FileUploadService {
     public afStore: AngularFirestore,
     private cvSV:CvService,
     private projSV:ProjectService,
-    private artSV:ArtService,
   ) { }
   // Returns an observable
   async upload(file:any,type:any,ru:any,id:any){
@@ -44,9 +42,6 @@ export class FileUploadService {
           }
           else if(ruta=="projects/proj"){
             this.projSV.editProjectIMG(id,r);
-          }
-          else if(ruta.includes('art')){
-            this.artSV.editImagenIMG(id,r);
           }
         });
       })).subscribe(url=>{

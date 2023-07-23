@@ -9,7 +9,6 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { EditCVModule } from './edit-cv/edit-cv.module';
 import { EditProjectsModule } from './edit-projects/edit-projects.module';
-import { EditArtModule } from './edit-art/edit-art.module';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
@@ -21,7 +20,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     EditRoutingModule,
     EditCVModule,
     EditProjectsModule,
-    EditArtModule,
 
     //external
     MatFormFieldModule,

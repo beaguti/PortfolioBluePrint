@@ -106,7 +106,9 @@ uploadPDF(ev:any){
     this.infoEdit=true;
   }
   getInfo(){
+    debugger;
     this.cvSV.getListInfos().subscribe((res)=>{
+      debugger;
       this.info=res[0];
     })
   }

@@ -4,6 +4,15 @@
 
 export const environment = {
   production: false,
+  firebase: {
+    apiKey: "AIzaSyChsCmy0PF_ObU2BF3m7xIIxl2TD6fq18k",
+    authDomain: "portfolio-fbf8d.firebaseapp.com",
+    projectId: "portfolio-fbf8d",
+    storageBucket: "portfolio-fbf8d.appspot.com",
+    messagingSenderId: "436435196053",
+    appId: "1:436435196053:web:80971818166ea0d278a39c",
+    measurementId: "G-QRKG0EZXN0"
+  }
 
 };
 

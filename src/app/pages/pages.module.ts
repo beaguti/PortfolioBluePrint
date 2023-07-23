@@ -5,9 +5,6 @@ import { CvModule } from './cv/cv.module';
 import { HomeModule } from './home/home.module';
 import { ProjectListModule } from './project-list/project-list.module';
 import { ProjectInfoModule } from './project-info/project-info.module';
-import { ArtAlbumListModule } from './art-album-list/art-album-list.module';
-import { ArtAlbumModule } from './art-album/art-album.module';
-import { ArtImageModule } from './art-image/art-image.module';
 import { PagesRoutingModule } from './pages-routing.module';
 
 
@@ -24,9 +21,6 @@ import { PagesRoutingModule } from './pages-routing.module';
     CvModule,
     ProjectListModule,
     ProjectInfoModule,
-    ArtAlbumListModule,
-    ArtAlbumModule,
-    ArtImageModule
 
     //external imports
     

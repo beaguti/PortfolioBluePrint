@@ -28,22 +28,6 @@ const routes: Routes = [{
       loadChildren: () => import('./project-info/project-info.module')
         .then(m => m.ProjectInfoModule),
     },
-    //arte
-    {
-      path: 'art-album-list',
-      loadChildren: () => import('./art-album-list/art-album-list.module')
-        .then(m => m.ArtAlbumListModule),
-    },
-    {
-      path: 'art-album/:id',
-      loadChildren: () => import('./art-album/art-album.module')
-        .then(m => m.ArtAlbumModule),
-    },
-    {
-      path: 'art-image/:id',
-      loadChildren: () => import('./art-image/art-image.module')
-        .then(m => m.ArtImageModule),
-    },
     {
       path: '',
       redirectTo: 'home',
